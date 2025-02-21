@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
+import ImageUpload from "./ImageUpload";
 
 interface Props<T extends FieldValues> {
   type: "SIGN_IN" | "SIGN_UP";
@@ -52,8 +53,6 @@ const AuthForm = <T extends FieldValues>({
 
   const isSignIn = type === "SIGN_IN";
 
-  console.log(Object.keys(defaultValues))
-
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-semibold text-white">
@@ -66,7 +65,7 @@ const AuthForm = <T extends FieldValues>({
       </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
-        {Object.keys(defaultValues).map((field) => (
+          {Object.keys(defaultValues).map((field) => (
             <FormField
               key={field}
               control={form.control}
@@ -77,21 +76,13 @@ const AuthForm = <T extends FieldValues>({
                     {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
                   </FormLabel>
                   <FormControl>
-                  <Input
-                        required
-                        type={
-                          FIELD_TYPES[field.name as keyof typeof FIELD_TYPES]
-                        }
-                        {...field}
-                        className="form-input"
-                      />
-                    {/* {field.name === "universityCard" ? (
-                      <FileUpload
-                        type="image"
-                        accept="image/*"
-                        placeholder="Upload your ID"
-                        folder="ids"
-                        variant="dark"
+                    {field.name === "universityCard" ? (
+                      <ImageUpload
+                        // type="image"
+                        // accept="image/*"
+                        // placeholder="Upload your ID"
+                        // folder="ids"
+                        // variant="dark"
                         onFileChange={field.onChange}
                       />
                     ) : (
@@ -103,14 +94,14 @@ const AuthForm = <T extends FieldValues>({
                         {...field}
                         className="form-input"
                       />
-                    )} */}
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           ))}
-          
+
           <Button type="submit" className="form-btn">
             {isSignIn ? "Sign In" : "Sign Up"}
           </Button>

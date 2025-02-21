@@ -240,7 +240,7 @@
 
   /* Auth */
   .auth-container {
-    @apply relative flex flex-col-reverse text-light-100 sm:flex-row;
+    @apply relative flex flex-col-reverse text-light-100 sm:flex-row bg-red-300;
   }
 
   .auth-form {

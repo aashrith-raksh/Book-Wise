@@ -1,4 +1,4 @@
-import db from "@/db";
+import {db} from "@/db";
 import { users } from "@/db/schema";
 import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";

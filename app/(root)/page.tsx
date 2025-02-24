@@ -1,7 +1,7 @@
 import BookList from "@/components/BookList";
 import BookOverview from "@/components/BookOverview";
 import { sampleBooks } from "@/constants";
-import db from "@/db";
+import {db} from "@/db";
 import { users } from "@/db/schema";
 
 export default async function Home() {

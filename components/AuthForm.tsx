@@ -24,6 +24,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
 import ImageUpload from "./ImageUpload";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 interface Props<T extends FieldValues> {
   type: "SIGN_IN" | "SIGN_UP";
@@ -37,10 +39,10 @@ interface Props<T extends FieldValues> {
 const AuthForm = <T extends FieldValues>({
   type,
   formSchema,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSubmit,
   defaultValues,
 }: Props<T>) => {
+  const router = useRouter();
   const form: UseFormReturn<T> = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues as DefaultValues<T>,
@@ -48,7 +50,25 @@ const AuthForm = <T extends FieldValues>({
 
   // 2. Define a submit handler.
   const handleSubmit: SubmitHandler<T> = async (data) => {
-    return data;
+    const result = await onSubmit(data);
+
+    if (result.success) {
+      
+      router.push("/");
+      
+      toast({
+        title: "Success",
+        description: isSignIn
+          ? "You have successfully signed in."
+          : "You have successfully signed up.",
+      });
+    } else {
+      toast({
+        title: `Error ${isSignIn ? "signing in" : "signing up"}`,
+        description: result.error ?? "An error occurred.",
+        variant: "destructive",
+      });
+    }
   };
 
   const isSignIn = type === "SIGN_IN";

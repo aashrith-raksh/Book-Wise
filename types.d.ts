@@ -11,5 +11,13 @@ interface Book {
   coverUrl: string;
   videoUrl: string;
   summary: string;
-  isLoanedBook?:boolean;
+  isLoanedBook?: boolean;
+}
+
+interface AuthCredentials {
+  email:string;
+  password:string;
+  fullName:string;
+  universityNumber:number;
+  universityCard:string;
 }

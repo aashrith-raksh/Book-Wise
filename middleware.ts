@@ -8,12 +8,13 @@ export default async function middleware(
   req: NextRequest,
   ctx: NextFetchEvent
 ): Promise<Response | undefined> {
+
+  // console.log("----- middleware ------")
   const session = await auth();
 
   if (!session) return NextResponse.redirect(new URL("/sign-in", req.url));
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "127.0.0.1";
 
-  console.log("ip: ", ip);
 
   const { success, pending } = await ratelimit.limit(ip);
 

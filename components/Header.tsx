@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Session } from "next-auth";
+import { Button } from "./ui/button";
 
 const Header = ({ session }: { session: Session }) => {
   const pathname = usePathname();
-  console.log(pathname);
   return (
     <header className="my-10 flex justify-between gap-5 items-center">
       <Link href={"/"}>
@@ -37,6 +37,27 @@ const Header = ({ session }: { session: Session }) => {
               </AvatarFallback>
             </Avatar>
           </Link>
+        </li>
+
+        <li>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+
+              fetch("http://localhost:3000/api/workflows/onboarding", {
+                method: "POST",
+                body: JSON.stringify({ foo: "bar" }),
+                headers: {
+                  "my-header": "foo",
+                },
+              })
+                .then((data) => data.json())
+                .then((data) => console.log("data:", data))
+                .catch((err) => console.log(err));
+            }}
+          >
+            Trigger Workflow
+          </Button>
         </li>
       </ul>
     </header>

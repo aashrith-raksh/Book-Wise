@@ -43,6 +43,7 @@ const Header = ({ session }: { session: Session }) => {
           <Button
             onClick={(e) => {
               e.preventDefault();
+              return
 
               fetch("http://localhost:3000/api/workflows/onboarding", {
                 method: "POST",

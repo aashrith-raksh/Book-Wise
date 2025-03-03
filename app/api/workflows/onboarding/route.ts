@@ -1,47 +1,86 @@
+import { db } from "@/db";
+import { users } from "@/db/schema";
+import { sendEmail } from "@/lib/workflow-client";
 import { serve } from "@upstash/workflow/nextjs";
+import { eq } from "drizzle-orm";
 
 type InitialData = {
   email: string;
+  fullName: string;
 };
 
-export const { POST } = serve<InitialData>(
-  async (context) => {
-    const { email } = context.requestPayload;
+export const { POST } = serve<InitialData>(async (context) => {
+  console.log("workflow triggered")
+  const { email, fullName } = context.requestPayload;
 
-    await context.run("new-signup", async () => {
-      await sendEmail("Welcome to the platform", email);
+
+  console.log("Sending welcome email to ", email)
+  await context.run("new-signup", async () => {
+    await sendEmail({
+      email,
+      subject: "Welcome to the platform",
+      message: `Welcome ${fullName}!`,
+    });
+  });
+
+  await context.sleep("wait-for-3-days", TimeInMs.THREE_DAYS);
+
+  while (true) {
+    const state = await context.run("check-user-state", async () => {
+      return await getUserState(email);
     });
 
-    await context.sleep("wait-for-3-days", 60 * 60 * 24 * 3);
-
-    while (true) {
-      const state = await context.run("check-user-state", async () => {
-        return await getUserState();
+    if (state === "non-active") {
+      await context.run("send-email-non-active", async () => {
+        await sendEmail({
+          email,
+          subject: "Are you still there?",
+          message: `Hey ${fullName}, we miss you!`,
+        });
       });
-
-      if (state === "non-active") {
-        await context.run("send-email-non-active", async () => {
-          await sendEmail("Email to non-active users", email);
+    } else if (state === "active") {
+      await context.run("send-email-active", async () => {
+        await sendEmail({
+          email,
+          subject: "Welcome back!",
+          message: `Welcome back ${fullName}!`,
         });
-      } else if (state === "active") {
-        await context.run("send-email-active", async () => {
-          await sendEmail("Send newsletter to active users", email);
-        });
-      }
-
-      await context.sleep("wait-for-1-month", 60 * 60 * 24 * 30);
+      });
     }
-  },
-);
 
-async function sendEmail(message: string, email: string) {
-  // Implement email sending logic here
-  console.log(`Sending ${message} email to ${email}`);
-}
+    await context.sleep("wait-for-1-month", TimeInMs.THIRTY_DAYS);
+  }
+});
 
 type UserState = "non-active" | "active";
 
-const getUserState = async (): Promise<UserState> => {
-  // Implement user state logic here
-  return "non-active";
+enum TimeInMs {
+  ONE_DAY = 24 * 60 * 60 * 1000,
+  THREE_DAYS = 3 * TimeInMs.ONE_DAY,
+  THIRTY_DAYS = 30 * TimeInMs.ONE_DAY,
+}
+
+const getUserState = async (email: string): Promise<UserState> => {
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+
+  if (!user) return "non-active";
+
+  const lastActivityDate = new Date(user[0].lastActivityStatus!);
+
+  const now = new Date();
+
+  const timeDifference = now.getTime() - lastActivityDate.getTime();
+
+  if (
+    timeDifference > TimeInMs.THREE_DAYS &&
+    timeDifference <= TimeInMs.THIRTY_DAYS
+  ) {
+    return "non-active";
+  }
+
+  return "active";
 };

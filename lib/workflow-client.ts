@@ -17,18 +17,21 @@ interface SendEmailType {
 }
 
 export const sendEmail = async ({ email, message, subject }: SendEmailType) => {
-  const emailRes = await qStashClient.publishJSON({
-    api: {
-      name: "email",
-      provider: resend({ token: config.env.resend.resendToken }),
-    },
-    body: {
-      from: "Raksh <marketing.raksh.com>",
-      to: [email],
-      subject: subject,
-      html: message,
-    },
-  });
-
-  return emailRes;
+  try {
+    const emailRes = await qStashClient.publishJSON({
+      api: {
+        name: "email",
+        provider: resend({ token: config.env.resend.resendToken }),
+      },
+      body: {
+        from: "Raksh <marketing.raksh.tech>",
+        to: [email],
+        subject: subject,
+        html: message,
+      },
+    });
+    return emailRes;
+  } catch (error) {
+    console.log((error as Error).message);
+  }
 };

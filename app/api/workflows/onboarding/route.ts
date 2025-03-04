@@ -78,7 +78,7 @@ enum TimeInMs {
   THIRTY_DAYS = 30 * TimeInMs.ONE_DAY,
 }
 
-const getUserState = async (email: string): Promise<UserState> => {
+export const getUserState = async (email: string): Promise<UserState> => {
   const user = await db
     .select()
     .from(users)

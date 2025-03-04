@@ -4,7 +4,7 @@ import { users } from "@/db/schema";
 import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { signIn } from "@/lib/auth";
-import { triggerWorkflow } from "../workflow-client";
+import { sendEmail, triggerWorkflow } from "../workflow-client";
 
 export const signUp = async (params: AuthCredentials) => {
   const { fullName, email, universityNumber, password, universityCard } =
@@ -32,11 +32,26 @@ export const signUp = async (params: AuthCredentials) => {
     });
 
     const signInResponse = await signInWithCredentials({ email, password });
-    triggerWorkflow(email, fullName);
 
     if (!signInResponse.success) {
       return { success: false };
     }
+
+    await sendEmail({
+      email,
+      subject: "🎉 Welcome to the Book-Wise!",
+      message: `Hey ${fullName},  
+  
+  Welcome to our platform! 🚀 We're excited to have you on board.  
+
+  Start exploring all the features we have to offer and feel free to reach out if you need any help.  
+
+  Happy exploring!  
+  Book-Wise 
+`,
+    });
+    triggerWorkflow(email, fullName);
+
     return { success: true };
   } catch (error) {
     console.log("Signup error\n", error);

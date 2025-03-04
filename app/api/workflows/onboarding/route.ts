@@ -14,15 +14,6 @@ export const { POST } = serve<InitialData>(
     console.log("workflow triggered");
     const { email, fullName } = context.requestPayload;
 
-    console.log("Sending welcome email to ", email);
-    await context.run("new-signup", async () => {
-      await sendEmail({
-        email,
-        subject: "Welcome to the platform",
-        message: `Welcome ${fullName}!`,
-      });
-    });
-
     await context.sleep("wait-for-3-days", TimeInMs.THREE_DAYS);
 
     while (true) {

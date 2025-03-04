@@ -20,7 +20,7 @@ const ImageUpload = ({ onFileChange }: Props) => {
   const authenticator = async () => {
     try {
       const response = await fetch(
-        `${config.env.apiEndpoint}/api/auth/imagekit`
+        `${config.env.prodApiEndpoint}/api/auth/imagekit`
       );
 
       if (!response.ok) {

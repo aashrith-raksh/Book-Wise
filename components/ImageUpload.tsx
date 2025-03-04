@@ -4,6 +4,7 @@ import { IKImage, ImageKitProvider, IKUpload } from "imagekitio-next";
 import config from "@/lib/config";
 import Image from "next/image";
 import { toast } from "@/hooks/use-toast";
+import { UploadError } from "imagekitio-next/dist/types/components/IKUpload/props";
 
 const { publicKey, urlEndpoint } = config.env.imagekit;
 
@@ -34,7 +35,7 @@ const ImageUpload = ({ onFileChange }: Props) => {
       return { signature, expire, token };
     } catch (error) {
       throw new Error(
-        `Authentication request failed: ${(error as Error).message}`
+        `ImageKit Authentication request failed: ${(error as Error).message}`
       );
     }
   };
@@ -42,9 +43,10 @@ const ImageUpload = ({ onFileChange }: Props) => {
   const ikUploadRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<{ filePath: string } | null>(null);
 
-  const onError = () => {
+  const onError = (err:UploadError) => {
+    console.log(err.message)
     toast({
-      title: "Image uploaded failed",
+      title: "Image uploading failed",
       variant: "destructive",
     });
   };

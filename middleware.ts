@@ -9,6 +9,14 @@ export default async function middleware(
   ctx: NextFetchEvent
 ): Promise<Response | undefined> {
 
+  const pathname = req.nextUrl.pathname;
+
+    // Exclude the `/api/imagekit` route
+    if (pathname.startsWith("/api/auth/imagekit")) {
+        return NextResponse.next(); // Skip middleware
+    }
+
+
   // console.log("----- middleware ------")
   const session = await auth();
 

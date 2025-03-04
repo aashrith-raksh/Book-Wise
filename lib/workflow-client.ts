@@ -35,3 +35,32 @@ export const sendEmail = async ({ email, message, subject }: SendEmailType) => {
     console.log((error as Error).message);
   }
 };
+
+export const triggerWorkflow = async (email: string, fullName: string) => {
+  console.log(
+    `[${new Date().toISOString()}]  Triggering workflow from actions...`
+  );
+
+  const url = `${config.env.prodApiEndpoint}/api/workflows/onboarding`;
+  const requestBody = { email, fullName };
+
+  console.log(`[${new Date().toISOString()}]  Sending request to: ${url}`);
+  console.log(
+    `[${new Date().toISOString()}]  Request Body:`,
+    JSON.stringify(requestBody, null, 2)
+  );
+
+  try {
+    const runID = await workflowClient.trigger({ url, body: requestBody });
+
+    console.log(
+      `[${new Date().toISOString()}]  Workflow triggered successfully!`
+    );
+    console.log(`[${new Date().toISOString()}]  Run ID:`, runID);
+  } catch (error) {
+    console.error(
+      `[${new Date().toISOString()}]  Error triggering workflow:`,
+      error
+    );
+  }
+};

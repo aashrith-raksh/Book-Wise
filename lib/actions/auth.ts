@@ -4,8 +4,7 @@ import { users } from "@/db/schema";
 import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { signIn } from "@/lib/auth";
-import { workflowClient } from "../workflow-client";
-import config from "../config";
+import { triggerWorkflow } from "../workflow-client";
 
 export const signUp = async (params: AuthCredentials) => {
   const { fullName, email, universityNumber, password, universityCard } =
@@ -32,16 +31,15 @@ export const signUp = async (params: AuthCredentials) => {
       universityCard,
     });
 
-    workflowClient.trigger({
-      url: `${config.env.apiEndpoint}/api/workflows/onboarding`,
-      body: { email, fullName },
-    });
+    const signInResponse = await signInWithCredentials({ email, password });
+    triggerWorkflow(email, fullName);
 
-    await signInWithCredentials({ email, password });
-
+    if (!signInResponse.success) {
+      return { success: false };
+    }
     return { success: true };
   } catch (error) {
-    console.log(error, "Signup error");
+    console.log("Signup error\n", error);
     return { success: false, error: "Signup error" };
   }
 };
@@ -56,23 +54,14 @@ export const signInWithCredentials = async (
       password,
       redirect: false,
     });
-    
-    console.log('trigerring workflow')
-    const runID = await workflowClient.trigger({
-      url: `${config.env.prodApiEndpoint}/api/workflows/onboarding`,
-      body: { email:"mchannel863@gmail.com", fullName: "M Channel863" },
-    });
-
-    console.log("runId", runID)
 
     if (result?.error) {
       return { success: false, error: result.error };
     }
 
-    console.log("returning result")
     return { success: true };
   } catch (error) {
-    console.log(error, "Signin error");
+    console.log("Signin error\n", error);
     return { success: false, error: "Signin error" };
   }
 };

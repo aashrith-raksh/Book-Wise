@@ -13,13 +13,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { bookSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import ColorPicker from "../ColorPicker";
 
 function Bookform() {
-  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(bookSchema),
     defaultValues: {
@@ -189,10 +188,10 @@ function Bookform() {
                 Primary Color
               </FormLabel>
               <FormControl>
-                {/* <ColorPicker
+                <ColorPicker
                   onPickerChange={field.onChange}
                   value={field.value}
-                /> */}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

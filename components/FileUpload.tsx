@@ -36,7 +36,9 @@ const ImageUpload = ({
   value,
 }: Props) => {
   const ikUploadRef = useRef<HTMLInputElement | null>(null);
-  const [file, setFile] = useState<{ filePath: string } | null>(null);
+  const [file, setFile] = useState<{ filePath: string }>({
+    filePath: value ?? ""
+  });
   const [progress, setProgress] = useState<number>(0);
 
   const styles = {

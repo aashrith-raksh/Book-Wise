@@ -1,4 +1,5 @@
 "use client";
+import FileUpload from "@/components/FileUpload";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -165,7 +166,7 @@ function Bookform() {
                 Book Image
               </FormLabel>
               <FormControl>
-                {/* <FileUpload
+                <FileUpload
                   type="image"
                   accept="image/*"
                   placeholder="Upload a book cover"
@@ -173,7 +174,7 @@ function Bookform() {
                   variant="light"
                   onFileChange={field.onChange}
                   value={field.value}
-                /> */}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -228,7 +229,7 @@ function Bookform() {
                 Book Trailer
               </FormLabel>
               <FormControl>
-                {/* <FileUpload
+                <FileUpload
                   type="video"
                   accept="video/*"
                   placeholder="Upload a book trailer"
@@ -236,7 +237,7 @@ function Bookform() {
                   variant="light"
                   onFileChange={field.onChange}
                   value={field.value}
-                /> */}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

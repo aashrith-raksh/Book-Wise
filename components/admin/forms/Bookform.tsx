@@ -17,6 +17,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ColorPicker from "../ColorPicker";
+import { createBook } from "@/lib/actions/admin";
+import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 function Bookform() {
   const form = useForm({
@@ -35,9 +38,29 @@ function Bookform() {
     },
   });
 
+  const router = useRouter();
+
   const onSubmit = async (formData: z.infer<typeof bookSchema>) => {
-    console.log(formData);
+    console.log("BOOK DATA:", formData);
+
+    const result = await createBook(formData);
+
+    if (result.success) {
+      toast({
+        title: "Success",
+        description: "Book created successfully",
+      });
+
+      router.push(`/admin/books/${result.data!.id}`);
+    } else {
+      toast({
+        title: "Error",
+        description: result.message,
+        variant: "destructive",
+      });
+    }
   };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

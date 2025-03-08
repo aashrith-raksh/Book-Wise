@@ -5,22 +5,11 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 
 const AdminSidebar = ({ session }: { session: Session }) => {
   const pathname = usePathname();
-
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    {console.log(session)}
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <div className="admin-sidebar">

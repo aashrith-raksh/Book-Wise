@@ -8,6 +8,13 @@
       "when": 1740209949748,
       "tag": "0000_brief_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1741403134693,
+      "tag": "0001_chief_raza",
+      "breakpoints": true
     }
   ]
 }

@@ -1,3 +1,6 @@
+import { InferInsertModel } from "drizzle-orm";
+import { books } from "./db/schema";
+
 interface Book {
   id: number;
   title: string;
@@ -20,4 +23,6 @@ interface AuthCredentials {
   fullName:string;
   universityNumber:number;
   universityCard:string;
-}
+}  
+
+type BookParams = InferInsertModel<typeof books>

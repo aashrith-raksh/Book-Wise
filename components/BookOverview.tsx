@@ -1,6 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import BookCover from "./BookCover";
+import { Book } from "@/types";
+// import config from "@/lib/config";
+
+interface Props extends Book {
+  userId: string;
+}
 
 const BookOverview = async ({
   title,
@@ -12,7 +18,7 @@ const BookOverview = async ({
   description,
   coverColor,
   coverUrl,
-}: Book) => {
+}: Props) => {
   return (
     <section className="book-overview">
       <div className="flex flex-1 flex-col gap-5 bg-">

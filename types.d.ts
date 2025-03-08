@@ -2,7 +2,7 @@ import { InferInsertModel } from "drizzle-orm";
 import { books } from "./db/schema";
 
 interface Book {
-  id: number;
+  id: string;
   title: string;
   author: string;
   genre: string;

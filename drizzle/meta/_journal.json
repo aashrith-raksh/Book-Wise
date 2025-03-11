@@ -15,6 +15,13 @@
       "when": 1741403134693,
       "tag": "0001_chief_raza",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1741693807561,
+      "tag": "0002_overrated_ozymandias",
+      "breakpoints": true
     }
   ]
 }

@@ -54,9 +54,11 @@ const Layout = async ({ children }: { children: ReactNode }) => {
         `Caching last activity date in Redis with expiry in ${seconds_until_midnight} seconds (until midnight)`
       );
 
+      const cacheKey = `LAST_ACTIVITY_DATE_${session.user.id}`;
+
       Promise.all([
-        redis.set("LAST_ACTIVITY_DATE", latestActivityDate),
-        redis.expire("LAST_ACTIVITY_DATE", seconds_until_midnight),
+        redis.set(cacheKey, latestActivityDate),
+        redis.expire(cacheKey, seconds_until_midnight),
       ]);
     } catch (error) {
       console.log((error as Error).message);

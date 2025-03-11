@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import BookCover from "./BookCover";
 import { Book } from "@/types";
-// import config from "@/lib/config";
+import BorrowBook from "./BorrowBook";
 
 interface Props extends Book {
   userId: string;
@@ -18,7 +18,14 @@ const BookOverview = async ({
   description,
   coverColor,
   coverUrl,
+  id,
+  userId
 }: Props) => {
+
+  const borrowingEligibility = {
+    bookIsEligibleToBorrow: availableCopies > 0,
+    message: availableCopies > 0 ? "Book can be borrowed" : "Book is not eligible for borrowing"
+  }
   return (
     <section className="book-overview">
       <div className="flex flex-1 flex-col gap-5 bg-">
@@ -52,13 +59,11 @@ const BookOverview = async ({
 
         <p className="book-description">{description}</p>
 
-        {/* {user && (
-          <BorrowBook
-            bookId={id}
-            userId={userId}
-            borrowingEligibility={borrowingEligibility}
-          />
-        )} */}
+        <BorrowBook
+          bookId={id}
+          userId={userId}
+          borrowingEligibility={borrowingEligibility}
+        />
       </div>
 
       <div className="relative flex flex-1 justify-center">

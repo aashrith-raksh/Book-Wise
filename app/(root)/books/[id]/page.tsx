@@ -2,7 +2,6 @@ import React from "react";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import BookOverview from "@/components/BookOverview";
-// import BookVideo from "@/components/BookVideo";
 import { db } from "@/db";
 import { books } from "@/db/schema";
 import { auth } from "@/lib/auth";

@@ -30,7 +30,7 @@ const Header = ({ session }: { session: Session }) => {
       {isAdmin && (
         <Link
           className="font-semibold text-light-200 underline"
-          href={"/admin"}
+          href={"/admin/books"}
         >
           Go to Admin Section
         </Link>

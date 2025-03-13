@@ -1,16 +1,14 @@
 "use client";
-import { cn, getInitials } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Session } from "next-auth";
 import { isUserAdmin } from "@/db/utils";
+import { Button } from "./ui/button";
+import { signOut } from "next-auth/react";
 
 const Header = ({ session }: { session: Session }) => {
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
-  const pathname = usePathname();
 
   useEffect(() => {
     async function checkAdmin() {
@@ -38,25 +36,13 @@ const Header = ({ session }: { session: Session }) => {
 
       <ul className="flex flex-row justify-between items-center gap-5">
         <li>
-          <Link
-            href={"/library"}
-            className={cn(
-              "text-base cursor-pointer capitalize",
-              pathname === "/library" ? "text-light-200" : "text-light-100"
-            )}
+          <form
+            action={async () => {
+              await signOut();
+            }}
           >
-            Library
-          </Link>
-        </li>
-
-        <li>
-          <Link href={"/my-profile"}>
-            <Avatar>
-              <AvatarFallback className="bg-amber-100">
-                {getInitials(session?.user?.name ?? "User")}
-              </AvatarFallback>
-            </Avatar>
-          </Link>
+            <Button>Logout</Button>
+          </form>
         </li>
       </ul>
     </header>

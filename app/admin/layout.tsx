@@ -15,7 +15,6 @@ const AdminLayout = async ({ children }: { children: ReactNode }) => {
   }
 
   const isAdmin = await isUserAdmin(session?.user?.id);
-  console.log("isAdmin:", isAdmin);
   if (!isAdmin) {
     return redirect("/");
   }

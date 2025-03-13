@@ -3,7 +3,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 import BookCoverSvg from "./BookCoverSvg";
-import Image from "next/image";
 import { IKImage } from "imagekitio-next";
 import config from "@/lib/config";
 
@@ -53,7 +52,6 @@ const BookCover = ({
           loading="lazy"
           lqip={{ active: true }}
         />
-        <Image src={coverImage} alt="book-cover" fill />
       </div>
     </div>
   );

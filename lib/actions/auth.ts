@@ -5,6 +5,7 @@ import { hash } from "bcryptjs";
 import { eq } from "drizzle-orm";
 import { signIn } from "@/lib/auth";
 import { sendEmail, triggerWorkflow } from "../workflow-client";
+import { AuthCredentials } from "@/types";
 
 export const signUp = async (params: AuthCredentials) => {
   const { fullName, email, universityNumber, password, universityCard } =
@@ -80,3 +81,14 @@ export const signInWithCredentials = async (
     return { success: false, error: "Signin error" };
   }
 };
+
+export const signInWithGoogle = async () => {
+  try {
+    await signIn("google");
+  } catch (error) {
+    if(error instanceof Error){
+      console.log(error)
+    }
+    
+  }
+}

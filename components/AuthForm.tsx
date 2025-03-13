@@ -26,6 +26,9 @@ import { FIELD_NAMES, FIELD_TYPES } from "@/constants";
 import ImageUpload from "./FileUpload";
 import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+
+import { signIn } from "next-auth/react";
 
 interface Props<T extends FieldValues> {
   type: "SIGN_IN" | "SIGN_UP";
@@ -53,9 +56,8 @@ const AuthForm = <T extends FieldValues>({
     const result = await onSubmit(data);
 
     if (result.success) {
-      
       router.push("/");
-      
+
       toast({
         title: "Success",
         description: isSignIn
@@ -98,12 +100,12 @@ const AuthForm = <T extends FieldValues>({
                   <FormControl>
                     {field.name === "universityCard" ? (
                       <ImageUpload
-                      type="image"
-                      accept="image/*"
-                      placeholder="Upload your ID"
-                      folder="ids"
-                      variant="dark"
-                      onFileChange={field.onChange}
+                        type="image"
+                        accept="image/*"
+                        placeholder="Upload your ID"
+                        folder="ids"
+                        variant="dark"
+                        onFileChange={field.onChange}
                       />
                     ) : (
                       <Input
@@ -127,6 +129,18 @@ const AuthForm = <T extends FieldValues>({
           </Button>
         </form>
       </Form>
+
+      {isSignIn && (
+        <Button className="form-btn" onClick={() => signIn("google")}>
+          <Image
+            src={"/icons/google-brands-solid.svg"}
+            alt="Google Logo"
+            height={20}
+            width={20}
+          />
+          Sign in with Google
+        </Button>
+      )}
       <p className="text-center text-base font-medium">
         {isSignIn ? "New to BookWise? " : "Already have an account? "}
 

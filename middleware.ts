@@ -8,21 +8,19 @@ export default async function middleware(
   req: NextRequest,
   ctx: NextFetchEvent
 ): Promise<Response | undefined> {
-
   const pathname = req.nextUrl.pathname;
 
-    // Exclude the `/api/imagekit` route
-    if (pathname.startsWith("/api/auth/imagekit")) {
-        return NextResponse.next(); // Skip middleware
-    }
+  // Exclude the `/api/imagekit` route
+  if (pathname.startsWith("/api/auth/")) {
+    console.log("skipping middlware....");
+    return NextResponse.next(); // Skip middleware
+  }
 
-
-  // console.log("----- middleware ------")
+  console.log("----- middleware ------")
   const session = await auth();
 
   if (!session) return NextResponse.redirect(new URL("/sign-in", req.url));
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "127.0.0.1";
-
 
   const { success, pending } = await ratelimit.limit(ip);
 

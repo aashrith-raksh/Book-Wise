@@ -1,5 +1,5 @@
 // "use client"
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   DefaultValues,
@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { signIn } from "next-auth/react";
+import { GuestSignInButton } from "./GuestSignInButton";
 
 interface Props<T extends FieldValues> {
   type: "SIGN_IN" | "SIGN_UP";
@@ -51,13 +52,16 @@ const AuthForm = <T extends FieldValues>({
     defaultValues: defaultValues as DefaultValues<T>,
   });
 
+  const [loading,setLoading] = useState(false)
+
   // 2. Define a submit handler.
   const handleSubmit: SubmitHandler<T> = async (data) => {
+    setLoading(true); // Start loading
+
     const result = await onSubmit(data);
 
     if (result.success) {
       router.push("/");
-
       toast({
         title: "Success",
         description: isSignIn
@@ -71,7 +75,9 @@ const AuthForm = <T extends FieldValues>({
         variant: "destructive",
       });
     }
-  };
+
+    setLoading(false); // Stop loading
+  }
 
   const isSignIn = type === "SIGN_IN";
 
@@ -124,23 +130,27 @@ const AuthForm = <T extends FieldValues>({
             />
           ))}
 
-          <Button type="submit" className="form-btn">
+          <Button type="submit" className="form-btn"  disabled={loading}>
             {isSignIn ? "Sign In" : "Sign Up"}
           </Button>
         </form>
       </Form>
 
+      <hr className="my-4"/>
+
       {isSignIn && (
-        <Button className="form-btn" onClick={() => signIn("google")}>
+        <Button className="form-btn" onClick={() => signIn("google")}  disabled={loading}>
+          Sign in with Google
           <Image
             src={"/icons/google-brands-solid.svg"}
             alt="Google Logo"
             height={20}
             width={20}
           />
-          Sign in with Google
         </Button>
       )}
+
+      <GuestSignInButton/>
       <p className="text-center text-base font-medium">
         {isSignIn ? "New to BookWise? " : "Already have an account? "}
 

@@ -139,7 +139,7 @@ const AuthForm = <T extends FieldValues>({
       <hr className="my-4"/>
 
       {isSignIn && (
-        <Button className="form-btn" onClick={() => signIn("google")}  disabled={loading}>
+        <Button className="form-btn" onClick={() => signIn("google")}>
           Sign in with Google
           <Image
             src={"/icons/google-brands-solid.svg"}

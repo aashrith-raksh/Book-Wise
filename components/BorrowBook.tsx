@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { createBorrowRecord } from "@/lib/actions/book";
 
@@ -21,7 +20,6 @@ const BorrowBook = ({
   bookId,
   borrowingEligibility: { bookIsEligibleToBorrow, message },
 }: Props) => {
-  const router = useRouter();
   const [borrowing, setBorrowing] = useState(false);
 
   const handleBorrowBook = async () => {
@@ -45,8 +43,6 @@ const BorrowBook = ({
           title: "Success",
           description: "Book borrowed successfully",
         });
-
-        router.push("/");
       } else {
         toast({
           title: "Error",

@@ -24,7 +24,7 @@ const BookOverview = async ({
 
   const borrowingEligibility = {
     bookIsEligibleToBorrow: availableCopies > 0,
-    message: availableCopies > 0 ? "Book can be borrowed" : "Book is not eligible for borrowing"
+    message: availableCopies > 0 ? "Book can be borrowed" : "Book is not eligible for borrowing. Not enough copies are available"
   }
   return (
     <section className="book-overview">

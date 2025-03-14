@@ -6,6 +6,8 @@ import { Session } from "next-auth";
 import { isUserAdmin } from "@/db/utils";
 import { Button } from "./ui/button";
 import { signOut } from "next-auth/react";
+import { getInitials } from "@/lib/utils";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 const Header = ({ session }: { session: Session }) => {
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(false);
@@ -35,6 +37,13 @@ const Header = ({ session }: { session: Session }) => {
       )}
 
       <ul className="flex flex-row justify-between items-center gap-5">
+        <li>
+          <Avatar>
+            <AvatarFallback className="bg-amber-100">
+              {getInitials(session?.user?.name ?? "User")}
+            </AvatarFallback>
+          </Avatar>
+        </li>
         <li>
           <form
             action={async () => {

@@ -12,7 +12,6 @@ export default async function middleware(
 
   // Exclude the `/api/imagekit` route
   if (pathname.startsWith("/api/auth/")) {
-    console.log("skipping middlware....");
     return NextResponse.next(); // Skip middleware
   }
 

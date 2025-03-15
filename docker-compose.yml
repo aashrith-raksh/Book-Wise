@@ -1,0 +1,11 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: book_wise_app
+    restart: always
+    env_file:
+      - .env.local
+    ports:
+      - "3000:3000"

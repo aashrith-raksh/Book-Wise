@@ -1,36 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+Powered by Next.js, TypeScript, and PostgreSQL, Book Wise is a University Library Management System.
+
+It is a production-ready platform with both a public-facing app and an admin interface. 
+
+It provides advanced features such as seamless book borrowing with reminders and receipts, efficient user management, automated email workflows, and a modern, high-performance tech stack designed for real-world scalability.
+
+
+
+## Tech Stack
+- Next.js
+- PostgreSQL
+- Upstash
+- ImageKit
+- TypeScript
+- Resend
+- Tailwind CSS
+## Features
+
+⭐ Open-source Authentication: Personalized onboarding flow with email notifications.
+
+⭐ Home Page: Highlighted books and newly added books with 3D effects.
+
+⭐ Book Detail Pages: Availability tracking, book summaries, book-trailers.
+
+⭐ Profile Page: Manage accounts, track borrowed books, and download receipts.
+
+⭐ Onboarding Workflows: Automated welcome emails when users sign up, with follow-ups based on inactivity or activity dates.
+
+⭐ Advanced Functionalities: Caching, rate-limiting, DDoS protection, and custom notifications.
+
+⭐ Book Management Forms: Add new books and edit existing entries.
+
+⭐ Seamless Email Handling: Resend for automated email communications, including notifications and updates.
+
+⭐ Database Management: Postgres with Neon for scalable and collaborative database handling.
+
+⭐ Real-time Media Processing: ImageKit for image and video optimization and transformations.
+
+⭐ Efficient Caching: Upstash Redis for caching, workflows, and triggers.
+
+⭐ Database ORM: Drizzle ORM for simplified and efficient database interactions.
+
+
+
+
+## Upcoming Improvements
+### Administrators Section
+👉 Account Requests Page: Admin approval for account requests, with email notifications for user verification.
+
+👉 All Books Page: List and manage all library books with advanced search, pagination, and filters.
+
+👉 Book Details Page: Detailed book information for administrators.
+
+👉 Borrow Records Page: Complete borrow history with pagination and search.
+
+👉 Role Management: Change user roles to invite more admins, with email notifications sent upon role updates.
+
+👉 Analytics Dashboard: Statistics, new users, books, borrow requests, and more.
+
+👉 All Users Page: View and manage users, including approving or revoking access.
+
+👉 Modern UI/UX: Built with TailwindCSS, ShadCN, and other cutting-edge tools.
+
+## Local Setup
+
+
+**Prerequisites**
+
+Make sure you have the following installed on your machine:
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
+
+**Cloning the Repository**
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clonehttps://github.com/aashrith-raksh/Book-Wise.git
+cd book-wise
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Installation**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Install the project dependencies using npm:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+```
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+**Setup environment variables**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create a new file named .env in the root of your project and add the following content:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+NEXT_PUBLIC_IMAGEKIT_PUBLIC_KEY=
+IMAGEKIT_PRIVATE_KEY=
+NEXT_PUBLIC_IMAGEKIT_URL_ENDPOINT=
 
-## Deploy on Vercel
+NEXT_PUBLIC_API_ENDPOINT=
+NEXT_PUBLIC_PROD_API_ENDPOINT=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+DATABASE_URL=
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+UPSTASH_REDIS_URL=
+UPSTASH_REDIS_TOKEN=
+
+AUTH_SECRET=
+AUTH_GOOGLE_ID=
+AUTH_GOOGLE_SECRET=
+AUTH_TRUST_HOST=
+
+# Required for workflow
+QSTASH_URL=
+QSTASH_TOKEN=
+
+RESEND_TOKEN=
+```
+
+Replace the placeholder values with your actual ImageKit, NeonDB, Upstash, and Resend credentials. You can obtain these credentials by signing up on the [ImageKit](https://bit.ly/49zmXkt), [NeonDB](https://fyi.neon.tech/1jsm), [Upstash](https://upstash.com/?utm_source=jsmastery1), and [Resend](https://resend.com/). 
+
+**DB Setup**
+
+After getting your DB connectiong string, migrate your DB and seed you DB using the following command:
+
+```bash
+npm run db:setup
+```
+
+**Build the project**
+
+After setting up your DB with seed users, you can build the project with the following command:
+
+```bash
+npm run build
+```
+
+
+## Setup with Docker
+
+Make sure you have the following installed on your machine:
+
+- [Docker](https://docs.docker.com/desktop/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+**Build and start the app container**
+```bash
+docker-compose up --build -d
+```
